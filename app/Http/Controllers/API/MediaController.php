@@ -86,8 +86,8 @@ class MediaController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'file' => 'required|file|max:10240', // 10MB max
-                'files.*' => 'nullable|file|max:10240', // 10MB max for multiple files
+                'file' => 'required|file|max:3072', // 3MB max for hero slider images
+                'files.*' => 'nullable|file|max:3072', // 3MB max for multiple files
                 'folder' => 'nullable|string|max:255',
                 'type' => 'nullable|string|in:image,video,audio,document,other',
             ]);
@@ -117,7 +117,17 @@ class MediaController extends Controller
                     
                     // Resize if too large
                     if ($image->width() > 1920 || $image->height() > 1080) {
-                        $image->resize(1920, 1080);
+                        $image->resize(1920, 1080, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    }
+                    
+                    // Ensure images with dimensions around 1351 × 600 are properly handled
+                    if ($image->width() >= 1351 && $image->height() >= 600) {
+                        $image->resize(1350, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
                     }
                     
                     Storage::disk('public')->put($filePath, $image->encodeByExtension($extension));
@@ -157,7 +167,17 @@ class MediaController extends Controller
                         
                         // Resize if too large
                         if ($image->width() > 1920 || $image->height() > 1080) {
-                            $image->resize(1920, 1080);
+                            $image->resize(1920, 1080, function ($constraint) {
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            });
+                        }
+                        
+                        // Ensure images with dimensions around 1351 × 600 are properly handled
+                        if ($image->width() >= 1351 && $image->height() >= 600) {
+                            $image->resize(1350, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
                         }
                         
                         Storage::disk('public')->put($filePath, $image->encodeByExtension($extension));
