@@ -52,6 +52,7 @@ Route::get('/languages', function () {
 // Public content routes (no authentication required)
 Route::prefix('public')->group(function () {
     Route::get('/company-info', [CompanyInfoController::class, 'show']);
+    Route::get('/about', [\App\Http\Controllers\API\AboutPageController::class, 'getPublicAboutPage']);
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/{id}', [ProductController::class, 'show']);
     Route::get('/product-categories', [ProductCategoryController::class, 'index']);
@@ -89,6 +90,9 @@ Route::middleware('auth:api')->group(function () {
             Route::put('/about', [AboutController::class, 'update']);
             Route::get('/about/team', [AboutController::class, 'team']);
             Route::get('/about/timeline', [AboutController::class, 'timeline']);
+            
+            // New About Page Management
+            Route::apiResource('/about-pages', \App\Http\Controllers\API\AboutPageController::class);
         });
 
         // Company Info
