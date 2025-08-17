@@ -3,26 +3,25 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\MenuController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\API\CompanyInfoController;
-use App\Http\Controllers\API\ProductController;
-use App\Http\Controllers\API\ProductCategoryController;
-use App\Http\Controllers\API\PressReleaseController;
-use App\Http\Controllers\API\PartnerController;
-use App\Http\Controllers\API\FormSubmissionController;
-use App\Http\Controllers\API\HeroSlideController;
-use App\Http\Controllers\API\SectorController;
-use App\Http\Controllers\API\TechnologyFeatureController;
+use App\Http\Controllers\API\AboutController;
 use App\Http\Controllers\API\MediaController;
-use App\Http\Controllers\API\LanguageController;
+use App\Http\Controllers\API\SectorController;
+use App\Http\Controllers\API\ModuleController;
+use App\Http\Controllers\API\PartnerController;
+use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\SettingsController;
 use App\Http\Controllers\API\DashboardController;
-use App\Http\Controllers\API\AboutController;
-use App\Http\Controllers\API\ModuleController;
+use App\Http\Controllers\API\HealthController;
+use App\Http\Controllers\API\HeroSlideController;
 use App\Http\Controllers\API\MenuItemController;
-use App\Http\Controllers\API\RoleController;
-use App\Http\Controllers\API\PermissionController;
-use App\Http\Controllers\API\MenuController;
+use App\Http\Controllers\API\LanguageController;
+use App\Http\Controllers\API\CompanyInfoController;
+use App\Http\Controllers\API\PressReleaseController;
+use App\Http\Controllers\API\FormSubmissionController;
+use App\Http\Controllers\API\ProductCategoryController;
+use App\Http\Controllers\API\TechnologyFeatureController;
 use App\Models\Language;
 
 /*
@@ -35,6 +34,9 @@ use App\Models\Language;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+// Health check endpoint
+Route::get('/health', [HealthController::class, 'check']);
 
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
