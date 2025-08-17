@@ -16,7 +16,7 @@ class MediaController extends Controller
     public function index(Request $request)
     {
         try {
-            $mediaPath = storage_path('app/public');
+            $mediaPath = public_path('storage');
             $files = [];
             
             if (is_dir($mediaPath)) {
@@ -218,7 +218,7 @@ class MediaController extends Controller
     {
         try {
             // Find file by ID (which is md5 of path)
-            $mediaPath = storage_path('app/public');
+            $mediaPath = public_path('storage');
             $iterator = new \RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator($mediaPath)
             );
